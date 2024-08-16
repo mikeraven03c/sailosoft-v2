@@ -7,60 +7,119 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## Multi Tenant | Single MVC Framework | Virtual Column | Database Software For Prototyping Solutions
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Overview
+Our software is designed to streamline the prototyping process by eliminating the need for extensive database planning upfront. By utilizing virtual columns, you gain unparalleled flexibility in shaping your software without compromising data integrity.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Core Features
+- Simplified Development:
+Our single MVC architecture drastically reduces development time by eliminating the need for individual model, controller, validation, and view files for each resource. Navigation and routing intelligently determine the necessary database connections.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Dynamic Data Structures:
+Virtual columns empower you to create diverse data structures on-the-fly. Input data is preserved in its original form, ensuring data consistency.
 
-## Learning Laravel
+- Advanced Data Management:
+Our single MVC routing system offers robust control over data retrieval through query parameters. Easily sort, paginate, filter, and search your data to meet specific requirements.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Multi-Tenancy:
+Securely manage multiple prototyping databases within a single instance. Our multi-tenant technology and boilerplate code ensure data isolation and user access control.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Focus on Front-End Development
+This software is specifically engineered to accelerate front-end development. By handling the backend complexities, you can devote more time to crafting exceptional user experiences and prototyping front-end. Our reusable front-end logic components and customizable framework provide a solid foundation for efficient development.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Modular and Scalable Architecture
+Our domain-driven and modular approach promotes code organization and maintainability. Easily integrate new technologies or modify existing components without disrupting the core framework. Our service provider system allows for seamless addition or removal of functionalities.
 
-## Laravel Sponsors
+#### In essence, our software provides a robust and efficient platform for rapid prototyping, enabling you to focus on innovation and user experience while we handle the underlying infrastructure.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Tech Stack
 
-### Premium Partners
+This project contains various front-end solutions including boilerplate projects for React, Vue3, and Livewire.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+You may find different project combinations. such as
+- NextJS - React - Mantine
+- Quasar - Vue3 -  - Laravel
+- Filament - Livewire - Alpine JS
+- Remix - Tailwind (Still on progress)
+- Express JS (On progress)
+- Flutter (Soon)
+- Angular (Soon)
 
-## Contributing
+It utilizes popular state management
+- Pinia
+- Redux-Toolkit
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Currently supported prototype software.
+- CRM (Currently prototyped)
+- Issue Tracking (Soon)
+- Project Management (Soon)
+- E-Commerce (Soon)
+- CMS and Blog (Soon)
+- ERP (Major Project - Soon)
 
-## Code of Conduct
+Notable Technology used
+...
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Source:
+- Multi-tenant(Filament Tenant Management Boilerplate): Modules/Multitenancy
+- Vue3 - Quasar Front-end: Modules/Vue/quasar
+- React - Mantine - Next Front-end: Modules/React/mantine
+- Single MVC: Modules/CustomEntity
+- Filament - Livewire: Modules/Filament | Modules/Multitenancy/app/Filament
 
-## Security Vulnerabilities
+### Multi-Tenant And Lemonshop CRM installation
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Create central database and configure on env
+DB_DATABASE=central_database
+DB_USERNAME=root
+DB_PASSWORD=
 
-## License
+2. Run migration
+- php artisan central:migrate [deprecated] or
+- php artisan migrate -–path=Modules/Multitenancy/database/migrations [deprecated] or
+- php artisan module:migrate Multitenancy [deprecated]
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Just make migration using <b>php artisan migrate</b>
+
+3. Then create an admin user on your console
+<br/><b>php artisan make:filament-user</b>
+
+4. Add your central domain on env
+<br/>CENTRAL_DOMAIN="central-domain.test|my-central-domain.com"
+
+5. Create Tenant. Login your credentials on your central domain and create a tenant.
+<br/><b>{central domain}/central/tenants/create</b>
+- Set id as your tenant key
+- Set database username and password to ensure seperate connection for your tenant databse.
+
+6. Setup Domain following tenant
+<br/><b>{central domain}/central/domains</b>
+Subdomain format - test (sailosoft.test)
+Domain format- test.sailosoft.test
+
+7. setup your subdomain or domain pointing to the instance of this software.
+
+8. Tenant Migration
+ php artisan tenants:migrate --tenants={tenant id}
+
+9. Seed users table seeder
+- php artisan tenants:run “db:seed” –option=”class=UserTableSeeder” (if does not work on production try the command below)
+- php artisan tenants:run db:seed
+
+10. Go Login to tenant using seed accounts
+<br/> <b>admin@lemoncrm.shop</b>
+<br/> <b>0ZGGg3DoMM</b>
+
+### Seed Custom Entity for CRM
+11. Seed custom entity
+- php artisan tenants:run "module:seed" --argument="module=CustomEntity" --option="class=CRMCustomEntitySeeder"
+
+12. Install table. It creates a table based on custom entity.
+- php artisan custom-entity:schema
+
+
+13. Seeder example data for CRM
+- Run php artisan tenants:run "module:seed" --argument="module=CustomEntity" --option="class=CRMCustomAppSeeder"
+
+14. Enjoy! More features to come.
