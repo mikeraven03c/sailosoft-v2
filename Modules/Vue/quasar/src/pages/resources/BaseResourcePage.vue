@@ -1,0 +1,63 @@
+<script setup>
+import ResourceIndex from "components/Resources/ResourceIndex.vue";
+import ResourceForm from "components/Resources/ResourceForm.vue";
+import FormManagement, {
+  FormHandleManagement,
+} from "src/components/Forms/Scripts/FormManagement";
+import { computed, defineAsyncComponent, onMounted } from "vue";
+import IndexManagement from "components/Index/Scripts/IndexManagement";
+
+const { template } = defineProps({
+  template: {
+    type: Object,
+    default: () => {},
+  },
+});
+
+const resource = {
+  ...template,
+};
+
+const formHandleHooks = FormHandleManagement();
+
+const indexHooks = IndexManagement({
+  title: resource.title,
+  url: resource.url,
+  conditions: resource.filters ? resource.filters : "",
+});
+const formHooks = FormManagement({
+  title: resource.title,
+  url: resource.url,
+  initialValues: resource.formInitialValues,
+});
+
+resource.formHandleHooks = formHandleHooks;
+resource.formHooks = formHooks;
+resource.indexHooks = indexHooks;
+
+const { form } = formHandleHooks;
+const dynamicForm = defineAsyncComponent(resource.formTemplate);
+// const dynamicForm = defineAsyncComponent(() =>
+//   import("pages/app/organizations/OrganizationFormTemplate.vue")
+// );
+const resolvedForm = computed(() => dynamicForm);
+const { resetFetch, refresh } = indexHooks;
+
+onMounted(() => {
+  refresh();
+});
+</script>
+
+<template>
+  <div>
+    <ResourceIndex v-bind="resource"></ResourceIndex>
+    <ResourceForm
+      ref="form"
+      v-bind="resource"
+      @onCreate="resetFetch"
+      @onUpdate="refresh"
+    >
+      <component :is="resolvedForm" :formHooks="resource.formHooks"></component>
+    </ResourceForm>
+  </div>
+</template>src/components/Index/Scripts/IndexManagementsrc/components/Forms/Scripts/FormManagement

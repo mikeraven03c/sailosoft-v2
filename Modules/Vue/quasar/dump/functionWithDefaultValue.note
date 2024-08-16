@@ -1,0 +1,15 @@
+function MyFunction() {
+  const defaultValue = 'default';
+
+  this.getValue = () => {
+    return defaultValue;
+  };
+
+  // Other methods or properties can be added here
+
+  return defaultValue;
+}
+
+const myInstance = new MyFunction();
+console.log(myInstance.getValue()); // Output: 'default'
+console.log(myInstance()); // Output: 'default'
