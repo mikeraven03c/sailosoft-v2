@@ -1,0 +1,11 @@
+{
+    "name": "React",
+    "alias": "react",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\React\\Providers\\ReactServiceProvider"
+    ],
+    "files": []
+}

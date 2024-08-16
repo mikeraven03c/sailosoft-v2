@@ -1,0 +1,1 @@
+php artisan tenant:migrate --path database/migrations/tenant

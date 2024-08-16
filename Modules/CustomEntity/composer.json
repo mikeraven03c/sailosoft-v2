@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/customentity",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\CustomEntity\\": "app/",
+            "Modules\\CustomEntity\\Database\\Factories\\": "database/factories/",
+            "Modules\\CustomEntity\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\CustomEntity\\Tests\\": "tests/"
+        }
+    }
+}

@@ -1,0 +1,7 @@
+{
+    "Multitenancy": true,
+    "Filament": true,
+    "CustomEntity": true,
+    "React": true,
+    "Vue": true
+}

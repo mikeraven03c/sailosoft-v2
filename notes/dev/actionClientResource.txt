@@ -1,0 +1,6 @@
+return Action::make()
+         ->mountUsing()
+        ->form(ClientResource::formSchema())
+        ->action(function ($data) {
+          // whatever you need to do
+        })

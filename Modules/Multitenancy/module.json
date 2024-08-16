@@ -1,0 +1,12 @@
+{
+    "name": "Multitenancy",
+    "alias": "multitenancy",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Multitenancy\\Providers\\MultitenancyServiceProvider",
+        "Modules\\Multitenancy\\Providers\\TenancyServiceProvider"
+    ],
+    "files": []
+}

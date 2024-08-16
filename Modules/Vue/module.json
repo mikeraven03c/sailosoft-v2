@@ -1,0 +1,11 @@
+{
+    "name": "Vue",
+    "alias": "vue",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Vue\\Providers\\VueServiceProvider"
+    ],
+    "files": []
+}

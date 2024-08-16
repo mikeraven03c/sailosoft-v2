@@ -1,0 +1,11 @@
+{
+    "name": "CustomEntity",
+    "alias": "customentity",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\CustomEntity\\Providers\\CustomEntityServiceProvider"
+    ],
+    "files": []
+}
