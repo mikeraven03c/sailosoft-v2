@@ -153,7 +153,12 @@ class CustomEntityDatabaseService
 
     public function resolveDatabaseVirtualColumn($column) : string
     {
-        return $this->isVirtualColumn($column) ? "data->{$column}" : $column;
+        if ($this->isVirtualColumn($column)) {
+            $convertedKey = str_replace('.', '->', $column);
+            return "data->$convertedKey";
+        } else {
+            return $column;
+        }
     }
 
     public function getDataByFilterQuery(

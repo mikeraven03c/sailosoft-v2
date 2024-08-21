@@ -24,6 +24,22 @@ export const leadsResource = {
       sortable: true,
     },
     {
+      name: "pipeline",
+      align: "left",
+      label: "Pipeline",
+      field: "pipeline",
+      sortable: true,
+      format: (val) => val?.label
+    },
+    {
+      name: "pipeline_stage",
+      align: "left",
+      label: "Pipeline stage",
+      field: "pipeline_stage",
+      sortable: true,
+      format: (val) => val?.label
+    },
+    {
       name: "contact",
       align: "left",
       label: "contact",

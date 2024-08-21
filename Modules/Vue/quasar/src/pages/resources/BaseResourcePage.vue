@@ -4,7 +4,7 @@ import ResourceForm from "components/Resources/ResourceForm.vue";
 import FormManagement, {
   FormHandleManagement,
 } from "src/components/Forms/Scripts/FormManagement";
-import { computed, defineAsyncComponent, onMounted } from "vue";
+import { computed, defineAsyncComponent, nextTick, onMounted } from "vue";
 import IndexManagement from "components/Index/Scripts/IndexManagement";
 
 const { template } = defineProps({
@@ -37,11 +37,23 @@ resource.indexHooks = indexHooks;
 
 const { form } = formHandleHooks;
 const dynamicForm = defineAsyncComponent(resource.formTemplate);
-// const dynamicForm = defineAsyncComponent(() =>
-//   import("pages/app/organizations/OrganizationFormTemplate.vue")
-// );
 const resolvedForm = computed(() => dynamicForm);
 const { resetFetch, refresh } = indexHooks;
+
+if (resource.formConfig) {
+  if (resource.formConfig.formShowAfterCreate) {
+    formHooks.hooksCycle.resolveCreate = (data) => {
+      nextTick(() => {
+        formHooks.actions.form.show(data);
+      });
+    };
+  }
+  if (resource.formConfig.formShowAfterUpdate) {
+    formHooks.hooksCycle.resolveUpdate = (data) => {
+      formHooks.actions.form.show(data);
+    };
+  }
+}
 
 onMounted(() => {
   refresh();
@@ -60,4 +72,4 @@ onMounted(() => {
       <component :is="resolvedForm" :formHooks="resource.formHooks"></component>
     </ResourceForm>
   </div>
-</template>src/components/Index/Scripts/IndexManagementsrc/components/Forms/Scripts/FormManagement
+</template>

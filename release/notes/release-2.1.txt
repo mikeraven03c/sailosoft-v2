@@ -1,0 +1,27 @@
+version:2.1
+date: 21 /08 2024
+description:
+Added:
+- Backend
+* Custom Entity Database virtual column nested filter
+* Added CRM Base resource data
+* Added resources - comment, issues, milestone, tag, task,
+* Update resources column for opportunity
+* Entity seeder update
+* added table migration after entity seeder update
+
+
+- Frontend
+* Added following template: Task, Comment, Milestone,
+* Attach task to leads and deals
+* Adjust App Routes from routes to mainRoutes
+* Sidebar added Projects groups and milestone resource
+* Add comment and notes to Task
+* Base Resources - added show form after creaete or update. Optional!
+* Update leads display column
+* Update form management hooks cycle and actions
+
+
+Soon:
+* Add Issues and Add/Attach Issue select on Task
+* Create Issue modules

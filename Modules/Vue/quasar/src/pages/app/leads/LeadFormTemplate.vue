@@ -8,6 +8,7 @@ import ContactFormTemplate from "pages/app/contacts/ContactFormTemplate.vue";
 import { contactResource } from "../contacts/contactResource";
 import FormManagement from "src/components/Forms/Scripts/FormManagement";
 import NoteIndexTemplate from "pages/app/notes/NoteIndexTemplate.vue";
+import TaskIndexTemplate from "pages/app/tasks/TaskIndexTemplate.vue";
 
 const { formHooks } = defineProps({
   formHooks: Object,
@@ -72,6 +73,27 @@ hooksCycle.afterResolve = (fields) => {
     fields.organization_id = fields.organization.value;
   }
   return fields;
+};
+
+const pipelineSelectHooks = selectRenderHooks({
+  url: "custom-apps/pipelines",
+  map: (e) => ({
+    label: e.name,
+    value: e.id,
+  }),
+});
+
+const pipelineStageSelectHooks = selectRenderHooks({
+  url: "custom-apps/pipeline-stages",
+  map: (e) => ({
+    label: e.name,
+    value: e.id,
+  }),
+});
+
+pipelineStageSelectHooks.hooks.resolvedParams = (data) => {
+  data.params["filter[pipeline_id]"] = formData.value.pipeline.value;
+  return data;
 };
 
 onMounted(() => {
@@ -184,6 +206,52 @@ const tab = ref("contact");
         :error="formError.value !== undefined"
       />
 
+      <!-- Pipelines -->
+      <q-select
+        filled
+        use-input
+        dense
+        hide-bottom-space
+        v-model="formData.pipeline"
+        :error-message="formError.pipeline"
+        :error="formError.pipeline !== undefined"
+        label="Pipelines"
+        input-debounce="1000"
+        :options="pipelineSelectHooks.options.value"
+        @filter="pipelineSelectHooks.filterFn"
+        @filter-abort="pipelineSelectHooks.abortFilterFn"
+        :readonly="formReadonly"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> No results </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <!-- Pipeline Stages -->
+      <q-select
+        filled
+        use-input
+        dense
+        hide-bottom-space
+        v-model="formData.pipeline_stage"
+        :error-message="formError.pipeline_stage"
+        :error="formError.pipeline_stage !== undefined"
+        label="Pipeline Stage"
+        input-debounce="1000"
+        :options="pipelineStageSelectHooks.options.value"
+        @filter="pipelineStageSelectHooks.filterFn"
+        @filter-abort="pipelineStageSelectHooks.abortFilterFn"
+        :readonly="formReadonly"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> No results </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
       <!-- Label -->
       <q-select
         v-model="formData.label"
@@ -222,6 +290,7 @@ const tab = ref("contact");
           <q-tab name="contact" label="Contact" />
           <q-tab name="organization" label="Organization" />
           <q-tab name="note" label="Notes" />
+          <q-tab name="task" label="Task" />
         </q-tabs>
 
         <q-separator />
@@ -335,6 +404,11 @@ const tab = ref("contact");
           <!-- Note -->
           <q-tab-panel name="note">
             <NoteIndexTemplate :id="formData.id" type="opportunities" />
+          </q-tab-panel>
+
+          <!-- Task -->
+          <q-tab-panel name="task">
+            <task-index-template :id="formData.id" type="opportunities" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card>

@@ -4,13 +4,16 @@ namespace Modules\CustomEntity\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\CustomEntity\CustomEntity;
+use Modules\CustomEntity\Data\Resources\Crm\CRMCommentResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOpportunityData;
+use Modules\CustomEntity\Data\Resources\Crm\CRMNoteResourceData;
+use Modules\CustomEntity\Data\Resources\Crm\CRMTaskResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineStageData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMContactResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMCustomerResourceData;
-use Modules\CustomEntity\Data\Resources\Crm\CRMNoteResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineResourceData;
+use Modules\CustomEntity\Data\Resources\Crm\CRMMilestoneResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOpportunityResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOrganizationResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineStageResourceData;
@@ -59,5 +62,19 @@ class CRMCustomEntitySeeder extends Seeder
         CustomEntity::updateOrCreate([
             CustomEntity::PROPERTY_SLUG => $data->slug
         ], $data->toArray());
+
+        $data = (new CRMTaskResourceData)();
+        CustomEntity::updateOrCreate([
+            CustomEntity::PROPERTY_SLUG => $data->slug
+        ], $data->toArray());
+
+        CRMMilestoneResourceData::instance()->updateOrCreate();
+
+        CRMCommentResourceData::instance()->updateOrCreate();
+
+        // Calling Schema
+        $customEntityDatabaseService = app(\Modules\CustomEntity\Services\CustomEntityDatabaseService::class);
+
+        $customEntityDatabaseService->createCustomEntityTables();
     }
 }

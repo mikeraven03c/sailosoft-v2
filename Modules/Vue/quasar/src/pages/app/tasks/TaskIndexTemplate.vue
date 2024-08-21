@@ -6,16 +6,26 @@ import FormManagement, {
 } from "src/components/Forms/Scripts/FormManagement";
 import { computed, defineAsyncComponent, onMounted } from "vue";
 import IndexManagement from "components/Index/Scripts/IndexManagement";
+import TaskFormTemplate from "pages/app/tasks/TaskFormTemplate.vue";
 
 const props = defineProps({
   id: Number,
   type: String,
+  isCustom: {
+    type: Boolean,
+    default: false,
+  },
+  hide: {
+    type: Array,
+    default: () => [],
+  },
+  custom: Object,
   tabsConfig: Object,
 });
 
 const resource = {
-  title: "Note",
-  url: "custom-apps/notes",
+  title: "Task",
+  url: "custom-apps/tasks",
   columns: [
     // { name: "id", align: "left", label: "Id", field: "id", sortable: true },
     {
@@ -26,14 +36,44 @@ const resource = {
       sortable: true,
     },
     {
-      name: "note",
+      name: "description",
       align: "left",
-      label: "Note",
-      field: "note",
+      label: "Description",
+      field: "description",
       sortable: false,
       format: (val) => {
-        return val && val.length > 10 ? val.substring(0, 10) + "..." : val;
+        return val && val.length > 15 ? val.substring(0, 15) + "..." : val;
       },
+    },
+    {
+      name: "status",
+      align: "left",
+      label: "Status",
+      field: "status",
+      sortable: true,
+      format: (val) => val?.label,
+    },
+    {
+      name: "due_date",
+      align: "left",
+      label: "Due Date",
+      field: "due_date",
+      sortable: true,
+    },
+    {
+      name: "priority",
+      align: "left",
+      label: "Priority",
+      field: "priority",
+      sortable: true,
+      format: (val) => val?.label,
+    },
+    {
+      name: "tags",
+      align: "left",
+      label: "Tags",
+      field: "tags",
+      sortable: true,
     },
     {
       name: "created_at",
@@ -46,11 +86,11 @@ const resource = {
   formInitialValues: {
     name: "",
     label: "",
-    note: "",
+    description: "",
   },
   tabsConfig: props.tabsConfig,
   template: () =>
-    defineAsyncComponent(() => import("pages/app/notes/NoteFormTemplate.vue")),
+    defineAsyncComponent(() => import("pages/app/tasks/TaskFormTemplate.vue")),
 };
 
 const formHandleHooks = FormHandleManagement();
@@ -61,8 +101,15 @@ const indexHooks = IndexManagement({
 });
 
 indexHooks.hooksCycle.params.resolvedParams = (params) => {
-  params.params["filter[resource_id]"] = props.id;
-  params.params["filter[resource_type]"] = props.type;
+  if (!props.isCustom) {
+    params.params["filter[resource_id]"] = props.id;
+    params.params["filter[resource_type]"] = props.type;
+  } else {
+    params.params = {
+      ...params.params,
+      ...(props.custom.params ?? {}),
+    };
+  }
   return params;
 };
 
@@ -73,8 +120,18 @@ const formHooks = FormManagement({
 });
 
 formHooks.hooksCycle.afterResolve = (fields) => {
-  fields.resource_id = props.id;
-  fields.resource_type = props.type;
+  if (!props.isCustom) {
+    fields.resource_id = props.id;
+    fields.resource_type = props.type;
+  } else {
+    fields = props.custom.resolvedFields?.(fields) ?? fields;
+  }
+  return fields;
+};
+
+formHooks.hooksCycle.beforeOpenForm = (fields) => {
+  fields.description = fields.description ? fields.description : "";
+
   return fields;
 };
 
@@ -102,7 +159,7 @@ onMounted(() => {
       @onCreate="resetFetch"
       @onUpdate="refresh"
     >
-      <component :is="resolvedForm" :formHooks="resource.formHooks"></component>
+      <TaskFormTemplate :formHooks="resource.formHooks" :hide="hide" />
     </ResourceForm>
   </div>
 </template>

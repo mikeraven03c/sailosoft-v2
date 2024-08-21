@@ -51,4 +51,18 @@ export const sidebarLink = [
       },
     ]
   },
+  {
+    title: "Project",
+    caption: "",
+    expansion: true,
+    icon: "apartment",
+    children: [
+      {
+        title: "Milestone",
+        caption: "",
+        icon: "flag",
+        link: "/app/milestones",
+      },
+    ]
+  },
 ];
