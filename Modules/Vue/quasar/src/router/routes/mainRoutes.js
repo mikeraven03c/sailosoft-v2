@@ -17,19 +17,19 @@ export const mainPathRoutes = [
   { path: 'milestones', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: milestoneResource } }
 ]
 
-const MainRoutes = [
-  {
-    path: 'contacts',
-    page: 'pages/contacts/ContactIndex.vue'
-  }
-];
+// const MainRoutes = [
+//   {
+//     path: 'contacts',
+//     page: 'pages/contacts/ContactIndex.vue'
+//   }
+// ];
 
-export const MainPathRoutes = [
-  {
-    path: '',
-    component: () => import('pages/IndexPage.vue')
-  }
-].concat(MainRoutes.map((e) => {
-  e.component = () => import(e.page)
-  return e
-}));
+// export const MainPathRoutes = [
+//   {
+//     path: '',
+//     component: () => import('pages/IndexPage.vue')
+//   }
+// ].concat(MainRoutes.map((e) => {
+//   e.component = () => import(e.page)
+//   return e
+// }));
