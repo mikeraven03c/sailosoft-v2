@@ -27,7 +27,7 @@ implements
             CustomEntityColumnPropertyData::make()->setData(
                 label: 'Title',
                 column_name: 'title',
-                rules: 'required|max:25'
+                rules: 'required|max:100'
             ),
             CustomEntityColumnPropertyData::make()->setData(
                 label: 'Value',

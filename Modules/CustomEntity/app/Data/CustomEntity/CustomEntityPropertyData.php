@@ -2,6 +2,7 @@
 
 namespace Modules\CustomEntity\Data\CustomEntity;
 
+use Illuminate\Support\Str;
 use Modules\CustomEntity\CustomEntity;
 use Modules\CustomEntity\Data\CustomEntityData;
 use Modules\CustomEntity\Data\CustomEntity\CustomEntityColumnPropertyData;
@@ -21,6 +22,16 @@ class CustomEntityPropertyData extends CustomEntityData
         public array $display_columns = []
     )
     {}
+
+    public static function fromResourceName(string $resource) : static
+    {
+        return new static(
+            entity: Str::plural(Str::snake($resource)),
+            name: Str::ucfirst($resource),
+            slug: Str::slug($resource),
+            navigation: Str::plural(Str::kebab($resource)),
+        );
+    }
 
     public function setColumns(CustomEntityColumnPropertyData ...$columns): self
     {

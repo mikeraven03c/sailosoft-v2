@@ -257,6 +257,7 @@ export default function IndexManagement({
     initialPagination,
     reference,
     hooksCycle,
+    actions,
     // Methods
     getInitialData,
     refetch,

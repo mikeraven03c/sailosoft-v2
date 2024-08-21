@@ -3,7 +3,7 @@
 import IndexManagement from "src/components/Index/Scripts/IndexManagement";
 import ContextMenu from "components/ContextMenu/ContextMenu.vue";
 import IndexMenu from "components/Menu/IndexMenu.vue";
-import { onMounted } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { FormHandleManagement } from "src/components/Forms/Scripts/FormManagement";
 import { contextMenuHandle } from "components/ContextMenu/Scripts/contextMenuHandle";
 
@@ -15,6 +15,7 @@ const {
   indexHooks,
   contextMenuOption,
   bodyClass,
+  tabsConfig,
 } = defineProps({
   title: String,
   url: String,
@@ -50,6 +51,7 @@ const {
     type: String,
     default: "q-pa-md",
   },
+  tabsConfig: Object,
 });
 
 // FormHandleManagement()
@@ -73,6 +75,26 @@ const { onAppendClick, onPrependClick } = contextMenuHandle(
   }
 );
 
+const selectedTab = ref("all");
+const previousParams = hooks.hooksCycle.params.resolvedParams;
+// console.log(previousParams);
+
+watch(selectedTab, (tab) => {
+  if (tab == "all") {
+    hooks.hooksCycle.params.resolvedParams = previousParams;
+  } else {
+    const tabItem = tabsConfig.tabs.find((e) => e.name == tab);
+
+    hooks.hooksCycle.params.resolvedParams = (params) => {
+      params = previousParams(params);
+      tabItem.params(params);
+      return params;
+    };
+  }
+
+  hooks.refresh();
+});
+
 const tableRef = hooks.table;
 const reference = hooks.reference;
 const { deleteRecord, onRequestFetch, resetFetch, refresh } = hooks;
@@ -83,6 +105,22 @@ const { selected, filter, loading, tableData, pagination } = reference;
     <!-- <div class="q-pa-md"> -->
     <span class="text-h5 q-pa-sm text-bold">{{ title }}s</span>
     <span>
+      <q-tabs
+        v-if="tabsConfig"
+        v-model="selectedTab"
+        class="text-primary"
+        dense
+        align="left"
+      >
+        <q-tab name="all" label="All" />
+        <q-tab
+          v-for="(tab, index) in tabsConfig.tabs"
+          :key="index"
+          :name="tab.name"
+        >
+          {{ tab.label }}
+        </q-tab>
+      </q-tabs>
       <q-table
         flat
         dense

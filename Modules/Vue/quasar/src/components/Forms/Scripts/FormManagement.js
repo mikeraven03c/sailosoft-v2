@@ -49,15 +49,22 @@ export default function FormManagement({
     form: {
       create: createForm,
       edit: editForm,
+      show: showForm
+    },
+    formData: {
+      update: (data) => formData.value = clone(data)
     }
   }
 
   const hooksCycle = {
+    beforeOpenForm: (fields) => fields,
     beforeCreate: (fields) => fields,
     beforeUpdate: (fields) => fields,
     afterResolve: (fields) => fields,
     afterCreate: (data) => { },
-    afterUpdate: (data) => { }
+    afterUpdate: (data) => { },
+    resolveCreate: (data) => { },
+    resolveUpdate: (data) => { },
   }
 
   const reference = {
@@ -97,6 +104,8 @@ export default function FormManagement({
 
         formShow.value = false;
         actions.formProcessing.stop()
+
+        hooksCycle.resolveCreate(data)
       }).catch((error) => {
         const errorHandle = HandleFormErrorManagement();
 
@@ -139,6 +148,9 @@ export default function FormManagement({
 
       formShow.value = false
       actions.formProcessing.stop()
+
+      hooksCycle.resolveUpdate(data)
+
     }).catch((error) => {
       const errorHandle = HandleFormErrorManagement();
 
@@ -186,20 +198,29 @@ export default function FormManagement({
     resetForm()
     formMode.value = "edit"
     formReadonly.value = false
-    formData.value = clone(data)
+    formData.value = hooksCycle.beforeOpenForm(
+      resolveForm(data)
+    )
   }
 
   function showForm(data) {
     resetForm()
     formMode.value = "show"
     formReadonly.value = true
-    formData.value = clone(data)
+    formData.value = hooksCycle.beforeOpenForm(
+      resolveForm(data)
+    )
   }
 
   function resetForm() {
     formError.value = {}
     formShow.value = true;
     formProcessing.value = false
+  }
+
+  function resolveForm(data) {
+    const obj = { ...initialValues, ...clone(data) }
+    return obj
   }
 
   function handleFormEmit(contextEmit) {

@@ -8,6 +8,7 @@ import OrganizationFormTemplate from "pages/app/organizations/OrganizationFormTe
 import ContactFormTemplate from "pages/app/contacts/ContactFormTemplate.vue";
 import { contactResource } from "../contacts/contactResource";
 import NoteIndexTemplate from "pages/app/notes/NoteIndexTemplate.vue";
+import TaskIndexTemplate from "pages/app/tasks/TaskIndexTemplate.vue";
 
 const { formHooks } = defineProps({
   formHooks: Object,
@@ -103,6 +104,8 @@ hooksCycle.afterResolve = (fields) => {
   return fields;
 };
 
+const tab = ref("contact");
+
 watch(
   () => formData.value.pipeline,
   (newValue, oldValue) => {
@@ -127,8 +130,6 @@ onMounted(() => {
     }
   }
 });
-
-const tab = ref("contact");
 </script>
 <template>
   <div>
@@ -306,6 +307,7 @@ const tab = ref("contact");
           <q-tab name="contact" label="Contact" />
           <q-tab name="organization" label="Organization" />
           <q-tab name="note" label="Notes" />
+          <q-tab name="task" label="Task" />
         </q-tabs>
 
         <q-separator />
@@ -438,6 +440,11 @@ const tab = ref("contact");
           <!-- Note -->
           <q-tab-panel name="note">
             <NoteIndexTemplate :id="formData.id" type="opportunities" />
+          </q-tab-panel>
+
+          <!-- Task -->
+          <q-tab-panel name="task">
+            <task-index-template :id="formData.id" type="opportunities" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card>
