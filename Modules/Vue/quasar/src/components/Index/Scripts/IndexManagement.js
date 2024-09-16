@@ -6,13 +6,13 @@ import DialogHandle from "components/Dialogs/Scripts/DialogHandle"
 export const INDEX_PAGINATED = 'paginated';
 export const INDEX_ALL = 'fetch_all';
 
-const initialPagination = {
+const initialPagination = Object.freeze({
   sortBy: 'id',
   descending: true,
   page: 1,
   rowsPerPage: 10,
   rowsNumber: 10
-};
+});
 
 export default function IndexManagement({
   title = '',
@@ -43,7 +43,7 @@ export default function IndexManagement({
     },
     pagination: {
       update: (property) => {
-        Object.assign(pagination.value, property)
+        pagination.value = Object.assign({}, pagination.value, property)
       }
     }
   }
