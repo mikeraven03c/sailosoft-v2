@@ -55,6 +55,14 @@ export const leadsResource = {
       sortable: true,
       format: (val) => val?.label
     },
+    {
+      name: "tag",
+      align: "left",
+      label: "tag",
+      field: "tags",
+      sortable: true,
+      type: "tags"
+    },
   ],
 
   contextMenuOption: {

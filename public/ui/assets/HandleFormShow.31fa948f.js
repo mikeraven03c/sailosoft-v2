@@ -1,1 +1,0 @@
-import{r as a,aQ as c,aR as f}from"./index.62a56d21.js";function h({url:t="",resolved:n=o=>{}}){const o=a(!1),r=a({});return{loading:o,record:r,fetch(i){o.value=!0,c.get(`${t}/${i}`).then(({data:e})=>{r.value=e,n(e)}).catch(e=>{f().errorNotify("There is error fetching record."),console.error(e)}).finally(()=>{o.value=!1})}}}export{h as H};

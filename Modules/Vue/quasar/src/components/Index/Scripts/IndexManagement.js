@@ -227,10 +227,6 @@ export default function IndexManagement({
     }
   }
 
-  function isRequestPaginated(mode) {
-    return mode == INDEX_PAGINATED;
-  }
-
   function getFilterParameter(filters, map = (key, value) => { }) {
     return filters.split('&').reduce((acc, pair) => {
       const [key, value] = pair.split('=');;

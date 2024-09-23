@@ -10,6 +10,8 @@ import FormManagement from "src/components/Forms/Scripts/FormManagement";
 import NoteIndexTemplate from "pages/app/notes/NoteIndexTemplate.vue";
 import TaskIndexTemplate from "pages/app/tasks/TaskIndexTemplate.vue";
 
+import TagComponent from "components/Forms/Components/TagComponent.vue";
+
 const { formHooks } = defineProps({
   formHooks: Object,
 });
@@ -251,6 +253,15 @@ const tab = ref("contact");
           </q-item>
         </template>
       </q-select>
+
+      <!-- Tags -->
+      <TagComponent
+        v-model.value="formData.tags"
+        resource="opportunities"
+        label="tags"
+        :readonly="formReadonly"
+        :error="formError.tags"
+      ></TagComponent>
 
       <!-- Label -->
       <q-select

@@ -53,7 +53,16 @@ export const dealsResource = {
       sortable: true,
       format: (val) => val?.label
     },
+    {
+      name: "tag",
+      align: "left",
+      label: "tag",
+      field: "tags",
+      sortable: true,
+      type: "tags"
+    },
   ],
+  defaultColumns: ['id', 'title', 'value'],
   formStyle: "width: 700px; max-width:90vw;",
   formInitialValues: {
     name: "",

@@ -19,6 +19,14 @@ const resource = {
       field: "name",
       sortable: true,
     },
+    {
+      name: "tag",
+      align: "left",
+      label: "Tags",
+      field: "tags",
+      sortable: true,
+      type: "tags",
+    },
   ],
   formInitialValues: {
     name: "",

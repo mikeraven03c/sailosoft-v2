@@ -65,4 +65,30 @@ export const sidebarLink = [
       },
     ]
   },
+  {
+    title: "Product Management",
+    caption: "",
+    expansion: true,
+    icon: "category",
+    children: [
+      {
+        title: "Product",
+        caption: "",
+        icon: "category",
+        link: "/app/products",
+      },
+    ]
+  },
+  {
+    title: "Setting",
+    expansion: true,
+    icon: "settings",
+    children: [
+      {
+        icon: 'label',
+        title: "Tags",
+        link: "/app/tags",
+      }
+    ]
+  }
 ];

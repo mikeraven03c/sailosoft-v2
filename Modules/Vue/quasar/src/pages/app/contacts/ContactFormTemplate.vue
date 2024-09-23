@@ -8,6 +8,7 @@ import OrganizationFormTemplate from "pages/app/organizations/OrganizationFormTe
 const { formHooks } = defineProps({
   formHooks: Object,
 });
+import TagComponent from "components/Forms/Components/TagComponent.vue";
 
 const { formData, formReadonly, formError, hooksCycle } = formHooks;
 
@@ -156,6 +157,15 @@ hooksCycle.afterResolve = (fields) => {
           </template>
         </q-input>
       </div>
+
+      <!-- Tags -->
+      <TagComponent
+        v-model.value="formData.tags"
+        resource="contacts"
+        label="Tags"
+        :readonly="formReadonly"
+        :error="formError.tags"
+      />
 
       <div class="text-h6 q-my-md">Address</div>
       <!-- House/Unit Number -->

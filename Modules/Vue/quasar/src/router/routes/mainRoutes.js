@@ -5,6 +5,8 @@ import { pipelineStageResource } from 'src/pages/app/pipelineStages/pipelineStag
 import { leadsResource } from 'src/pages/app/leads/leadsResource'
 import { dealsResource } from 'src/pages/app/deals/dealsResource'
 import { milestoneResource } from 'src/pages/app/milestones/milestoneResource'
+import { productResource } from 'src/pages/app/products/productResource'
+import { tagResource } from 'src/pages/app/tags/tagsResource'
 
 export const mainPathRoutes = [
   { path: '', component: () => import('pages/IndexPage.vue') },
@@ -14,7 +16,9 @@ export const mainPathRoutes = [
   { path: 'pipeline-stages', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: pipelineStageResource } },
   { path: 'leads', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: leadsResource } },
   { path: 'deals', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: dealsResource } },
-  { path: 'milestones', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: milestoneResource } }
+  { path: 'milestones', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: milestoneResource } },
+  { path: 'products', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: productResource } },
+  { path: 'tags', component: () => import('pages/resources/BaseResourcePage.vue'), props: { template: tagResource } }
 ]
 
 // const MainRoutes = [

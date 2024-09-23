@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { sequeceInputHooks } from "components/Inputs/Scripts/sequenceInputHooks";
 import { selectRenderHooks } from "src/components/Select/Scripts/selectRenderHooks";
+import TagComponent from "components/Forms/Components/TagComponent.vue";
 
 const { formHooks } = defineProps({
   formHooks: Object,
@@ -104,6 +105,15 @@ hooksCycle.afterResolve = (fields) => {
           </template>
         </q-input>
       </div>
+
+      <!-- Tags -->
+      <TagComponent
+        v-model.value="formData.tags"
+        resource="organizations"
+        label="Tags"
+        :readonly="formReadonly"
+        :error="formError.tags"
+      />
 
       <div class="text-h6 q-my-md">Address</div>
       <!-- House/Unit Number -->

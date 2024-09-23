@@ -10,6 +10,8 @@ import { contactResource } from "../contacts/contactResource";
 import NoteIndexTemplate from "pages/app/notes/NoteIndexTemplate.vue";
 import TaskIndexTemplate from "pages/app/tasks/TaskIndexTemplate.vue";
 
+import TagComponent from "components/Forms/Components/TagComponent.vue";
+
 const { formHooks } = defineProps({
   formHooks: Object,
 });
@@ -84,6 +86,17 @@ pipelineStageSelectHooks.hooks.resolvedParams = (data) => {
   data.params["filter[pipeline_id]"] = formData.value.pipeline.value;
   return data;
 };
+
+// const tagsSelectHooks = selectRenderHooks({
+//   url: "custom-apps/tags",
+//   map: (e) => ({
+//     label: e.name,
+//     value: e.id,
+//     color: e.color,
+//   }),
+// }).actions.addFilterAction((actions) => {
+//   actions.addFilter("resource", "opportunities");
+// });
 
 const handleContactForm = HandleFormShow({
   url: "custom-apps/contacts",
@@ -268,6 +281,39 @@ onMounted(() => {
           </q-item>
         </template>
       </q-select>
+
+      <!-- Tags -->
+      <TagComponent
+        v-model.value="formData.tags"
+        resource="opportunities"
+        label="Tags"
+        :readonly="formReadonly"
+        :error="formError.tags"
+      />
+
+      <!-- <q-select
+        filled
+        use-input
+        use-chips
+        multiple
+        dense
+        hide-bottom-space
+        v-model="formData.tags"
+        :error-message="formError.tags"
+        :error="formError.tags !== undefined"
+        label="Tags"
+        input-debounce="1000"
+        :options="tagsSelectHooks.options.value"
+        @filter="tagsSelectHooks.filterFn"
+        @filter-abort="tagsSelectHooks.abortFilterFn"
+        :readonly="formReadonly"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey"> No results </q-item-section>
+          </q-item>
+        </template>
+      </q-select> -->
 
       <!-- Label -->
       <q-select
