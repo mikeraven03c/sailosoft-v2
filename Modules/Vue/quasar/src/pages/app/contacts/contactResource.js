@@ -34,6 +34,14 @@ export const contactResource = {
       sortable: false,
       format: (val) => val?.slice(0, 3).join(', ')
     },
+    {
+      name: "tag",
+      align: "left",
+      label: "tag",
+      field: "tags",
+      sortable: true,
+      type: "tags"
+    },
   ],
   formStyle: "width: 600px; max-width:90vw;",
   formInitialValues: {

@@ -7,6 +7,11 @@ import { onMounted, ref, watch } from "vue";
 import { FormHandleManagement } from "src/components/Forms/Scripts/FormManagement";
 import { contextMenuHandle } from "components/ContextMenu/Scripts/contextMenuHandle";
 
+import FilterIndexComponent from "components/Filters/FilterIndexComponent.vue";
+import { processFilter } from "components/Filters/Scripts/FilterOption";
+import DynamicColumnComponent from "components/Table/Columns/DynamicColumnComponent.vue";
+import { manageVisibleColumns } from "src/components/Table/VisibleColumns/Scripts/VisibleColumn";
+
 const {
   title,
   url,
@@ -16,6 +21,8 @@ const {
   contextMenuOption,
   bodyClass,
   tabsConfig,
+  filterOption,
+  defaultColumns,
 } = defineProps({
   title: String,
   url: String,
@@ -31,6 +38,10 @@ const {
         sortable: true,
       },
     ],
+  },
+  defaultColumns: {
+    type: Array,
+    default: () => [],
   },
   formHandleHooks: {
     type: Object,
@@ -50,6 +61,10 @@ const {
   bodyClass: {
     type: String,
     default: "q-pa-md",
+  },
+  filterOption: {
+    type: [Array, Object, undefined],
+    default: undefined,
   },
   tabsConfig: Object,
 });
@@ -77,8 +92,22 @@ const { onAppendClick, onPrependClick } = contextMenuHandle(
 
 const selectedTab = ref("all");
 const previousParams = hooks.hooksCycle.params.resolvedParams;
-// console.log(previousParams);
 
+const filterConfig = processFilter(filterOption);
+const filterHooks = filterConfig.hooks({
+  previousParams,
+  hooks,
+});
+
+const visibleColumns = manageVisibleColumns({
+  key: title,
+  columns: columns,
+  defaultColumns: defaultColumns,
+});
+
+/**
+ * Tab Filtering
+ */
 watch(selectedTab, (tab) => {
   if (tab == "all") {
     hooks.hooksCycle.params.resolvedParams = previousParams;
@@ -133,6 +162,7 @@ const { selected, filter, loading, tableData, pagination } = reference;
         v-model:pagination="pagination"
         :loading="loading"
         :filter="filter"
+        :visible-columns="visibleColumns.selection.value"
         binary-state-sort
         @request="onRequestFetch"
         v-model:selected="selected"
@@ -158,11 +188,31 @@ const { selected, filter, loading, tableData, pagination } = reference;
               <q-icon name="search" />
             </template>
           </q-input>
+          <visibleColumns.component()
+            class="q-mx-xs"
+            :config="visibleColumns"
+          />
+          <q-btn
+            v-if="filterOption"
+            round
+            size="sm"
+            color="secondary"
+            icon="filter_alt"
+            class="q-mx-xs"
+          >
+            <q-menu style="min-width: 200px">
+              <FilterIndexComponent
+                @input="filterHooks.updateModel"
+                @onfilter="filterHooks.update"
+                @onreset="filterHooks.reset"
+                v-bind="filterOption"
+                :value="filterConfig.model.value"
+              ></FilterIndexComponent>
+            </q-menu>
+          </q-btn>
         </template>
         <template v-slot:body-cell="props">
-          <q-td :props="props">
-            {{ props.value }}
-          </q-td>
+          <DynamicColumnComponent :props="props"></DynamicColumnComponent>
           <!-- Context Menu -->
           <context-menu
             @onEdit="onFormEdit(props.row)"
@@ -177,4 +227,4 @@ const { selected, filter, loading, tableData, pagination } = reference;
       </q-table>
     </span>
   </div>
-</template>src/components/Forms/Scripts/FormManagement
+</template>src/components/Table/VisibleColumns/Scripts/VisibleColumn

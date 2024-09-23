@@ -1,0 +1,2 @@
+dynamic components
+https://www.monterail.com/blog/understanding-dynamic-components-in-vue-3

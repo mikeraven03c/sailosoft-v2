@@ -12,9 +12,20 @@ export function selectRenderHooks({
   filters = ''
 }) {
   const options = ref([])
+  const customFilter = {};
 
   const hooks = {
-    resolvedParams: (params) => params
+    resolvedParams: (params) => params,
+  }
+
+  const actions = {
+    addFilter(filter, value) {
+      customFilter[filter] = value
+    },
+    addFilterAction(callback) {
+      callback(actions)
+      return selectRender;
+    },
   }
 
   function resolveSearchParams(search = '') {
@@ -35,6 +46,12 @@ export function selectRenderHooks({
       }, {});
     }
 
+    if (customFilter) {
+      for (const [key, item] of Object.entries(customFilter)) {
+        paramsOption.params[`filter[${key}]`] = item
+      }
+    }
+
     return paramsOption;
   }
 
@@ -47,15 +64,14 @@ export function selectRenderHooks({
       resolveSearchParams(search)
     )
 
-    // console.log(params)
-
     api.get(url, params).then(({ data }) => {
       dataResolve(data)
     }).catch((error) => {
-      error()
+      console.error(error)
     })
   }
-  return {
+  const selectRender = {
+    actions,
     hooks,
     options,
     filterFn(val, update, abort) {
@@ -70,4 +86,6 @@ export function selectRenderHooks({
     },
     abortFilter() { }
   }
+
+  return selectRender;
 }

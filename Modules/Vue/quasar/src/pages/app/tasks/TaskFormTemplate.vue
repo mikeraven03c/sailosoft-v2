@@ -3,6 +3,8 @@ import { ref } from "vue";
 import CommentTemplate from "pages/app/comments/CommentTemplate.vue";
 import NoteIndexTemplate from "pages/app/notes/NoteIndexTemplate.vue";
 import { selectRenderHooks } from "src/components/Select/Scripts/selectRenderHooks";
+import TagComponent from "components/Forms/Components/TagComponent.vue";
+
 const { formHooks, hide } = defineProps({
   formHooks: Object,
   hide: {
@@ -202,6 +204,15 @@ const tab = ref("comment");
           </q-item>
         </template>
       </q-select>
+
+      <!-- Tags -->
+      <TagComponent
+        v-model.value="formData.tags"
+        resource="tasks"
+        label="tags"
+        :readonly="formReadonly"
+        :error="formError.tags"
+      />
 
       <!-- Put Tags here -->
       <!-- <q-select

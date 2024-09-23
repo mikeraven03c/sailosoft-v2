@@ -73,6 +73,7 @@ const resource = {
       align: "left",
       label: "Tags",
       field: "tags",
+      type: "tags",
       sortable: true,
     },
     {

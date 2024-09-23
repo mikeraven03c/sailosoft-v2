@@ -19,6 +19,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CustomEntityResource\RelationManagers;
+use Illuminate\Support\Facades\Artisan;
 use Modules\CustomEntity\Filament\Exports\CustomEntityExporter;
 use Modules\CustomEntity\Filament\Imports\CustomEntityImporter;
 use Modules\CustomEntity\Filament\Resources\CustomEntityResource\Pages;
@@ -39,7 +40,7 @@ class CustomEntityResource extends Resource
                     ->schema([
                         TextInput::make('entity')->prefix('entity_')->required()->autocomplete(false),
                         TextInput::make('name')->live(debounce: 500)->autocomplete(false)
-                            ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                            ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                         TextInput::make('slug'),
                         TextInput::make('navigation')->required(),
                         TextInput::make('group'),
@@ -69,17 +70,30 @@ class CustomEntityResource extends Resource
                 // \Filament\Tables\Actions\ImportAction::make()
                 //     ->importer(CustomEntityImporter::class)
                 \Modules\CustomEntity\Filament\Imports\CustomEntityImportAction::make()
-                    ->importer(CustomEntityImporter::class)
+                    ->importer(CustomEntityImporter::class),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('Update tenant:table')->action(function() {
+                        $output = Artisan::call('tenants:run', [
+                            'commandname' => 'module:seed',
+                            '--argument' => [
+                                'module=CustomEntity',
+                            ],
+                            '--option' => [
+                                'class=CRMCustomEntitySeeder',
+                            ],
+                        ]);
+                    }),
+                ]),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Action::make('fields')
-                    ->url(fn ($record): string => route(
+                    ->url(fn($record): string => route(
                         'filament.admin.resources.custom-entities.field',
                         ['record' => $record]
                     )),
                 Action::make('display')
-                    ->url(fn ($record): string => route(
+                    ->url(fn($record): string => route(
                         'filament.admin.resources.custom-entities.display',
                         ['record' => $record]
                     )),

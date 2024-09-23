@@ -36,6 +36,7 @@ const formHooks = FormManagement({
 });
 
 const { resetFetch, refresh, tableData, actions, loading } = indexHooks;
+
 actions.pagination.update({
   rowsPerPage: 20,
   descending: false,

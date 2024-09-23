@@ -25,3 +25,25 @@ Added:
 Soon:
 * Add Issues and Add/Attach Issue select on Task
 * Create Issue modules
+
+version:2.2
+date: 23/09 2024
+description:
+Added:
+- backend:
+* Added BaseResourceData
+* Added Product Resource
+* Added tags on resources
+
+- Frontend: Quasar
+* Hotfixes table index sorting when comment is open
+* Added Form Builder
+* Added Form Builder components (text, tag, select, text)
+* Added tags feature: component and resource
+* Sidebar list updated
+* Added tags on specified resources: (deals, leads, organization, contacts, task)
+* Milestone created at column fix display of datetime
+* Added datetime formatter
+* Added Product Resources
+* Visible columns toggle
+* Added filters

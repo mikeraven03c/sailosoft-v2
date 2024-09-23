@@ -4,6 +4,7 @@ namespace Modules\CustomEntity\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\CustomEntity\CustomEntity;
+use Modules\CustomEntity\Data\Resources\Commerce\CommereProductResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMCommentResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOpportunityData;
@@ -17,6 +18,7 @@ use Modules\CustomEntity\Data\Resources\Crm\CRMMilestoneResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOpportunityResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMOrganizationResourceData;
 use Modules\CustomEntity\Data\Resources\Crm\CRMPipelineStageResourceData;
+use Modules\CustomEntity\Data\Resources\Crm\CRMTagResourceData;
 
 class CRMCustomEntitySeeder extends Seeder
 {
@@ -71,6 +73,10 @@ class CRMCustomEntitySeeder extends Seeder
         CRMMilestoneResourceData::instance()->updateOrCreate();
 
         CRMCommentResourceData::instance()->updateOrCreate();
+
+        CommereProductResourceData::instance()->updateOrCreate();
+
+        CRMTagResourceData::instance()->updateOrCreate();
 
         // Calling Schema
         $customEntityDatabaseService = app(\Modules\CustomEntity\Services\CustomEntityDatabaseService::class);

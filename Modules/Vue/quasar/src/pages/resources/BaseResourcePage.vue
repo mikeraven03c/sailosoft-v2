@@ -6,6 +6,7 @@ import FormManagement, {
 } from "src/components/Forms/Scripts/FormManagement";
 import { computed, defineAsyncComponent, nextTick, onMounted } from "vue";
 import IndexManagement from "components/Index/Scripts/IndexManagement";
+import { productResource } from "../app/products/productResource";
 
 const { template } = defineProps({
   template: {

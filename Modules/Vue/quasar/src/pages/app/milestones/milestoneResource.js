@@ -1,4 +1,5 @@
 import { format } from 'quasar'
+import { dateFormat } from 'src/boot/formatter'
 // destructuring to keep only what is needed
 const { capitalize } = format
 
@@ -34,6 +35,9 @@ export const milestoneResource = {
       label: capitalize("created at"),
       field: "created_at",
       sortable: true,
+      format: (val) => {
+        return val ? dateFormat(val) : val
+      },
     },
   ],
   formStyle: "width: 800px; max-width:90vw;",
